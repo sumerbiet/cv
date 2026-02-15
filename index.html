@@ -1,0 +1,89 @@
+/* === MENU & NAV === */
+const navMenu = document.getElementById('nav-menu'),
+      navToggle = document.getElementById('nav-toggle'),
+      navClose = document.getElementById('nav-close');
+
+if(navToggle) { navToggle.addEventListener('click', () => navMenu.classList.add('show-menu')); }
+if(navClose) { navClose.addEventListener('click', () => navMenu.classList.remove('show-menu')); }
+
+const navLink = document.querySelectorAll('.nav__link');
+function linkAction() { navMenu.classList.remove('show-menu'); }
+navLink.forEach(n => n.addEventListener('click', linkAction));
+
+/* === TYPEWRITER === */
+const text = "Desarrollo Web · Automatización · IA";
+let charIndex = 0;
+function typeWriter() {
+    const typewriterElement = document.getElementById("typewriter");
+    if (typewriterElement && charIndex < text.length) {
+        typewriterElement.innerHTML += text.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 100);
+    }
+}
+
+/* === EARTH 3D (THREE.JS) === */
+const earthContainer = document.getElementById('earth-container');
+if (earthContainer && typeof THREE !== 'undefined') {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, earthContainer.clientWidth / earthContainer.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(earthContainer.clientWidth, earthContainer.clientHeight);
+    earthContainer.appendChild(renderer.domElement);
+
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load('https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Land_ocean_ice_2048.jpg/1024px-Land_ocean_ice_2048.jpg');
+    
+    const geometry = new THREE.SphereGeometry(2, 64, 64);
+    const material = new THREE.MeshPhongMaterial({ map: earthTexture, shininess: 15 });
+    const earthMesh = new THREE.Mesh(geometry, material);
+    scene.add(earthMesh);
+
+    const ambientLight = new THREE.AmbientLight(0x999999); 
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(5, 3, 5);
+    scene.add(directionalLight);
+
+    camera.position.z = 5;
+
+    function animateEarth() {
+        requestAnimationFrame(animateEarth);
+        earthMesh.rotation.y += 0.002;
+        renderer.render(scene, camera);
+    }
+    animateEarth();
+}
+
+/* === STARFIELD === */
+const starCanvas = document.getElementById('starfield');
+if(starCanvas) {
+    const starCtx = starCanvas.getContext('2d');
+    let stars = []; const numStars = 200;
+    function resize() { starCanvas.width = window.innerWidth; starCanvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+    for (let i = 0; i < numStars; i++) {
+        stars.push({ x: Math.random() * window.innerWidth - window.innerWidth / 2, y: Math.random() * window.innerHeight - window.innerHeight / 2, z: Math.random() * window.innerWidth });
+    }
+    function animate() {
+        starCtx.fillStyle = "black";
+        starCtx.fillRect(0, 0, starCanvas.width, starCanvas.height);
+        starCtx.fillStyle = "white";
+        stars.forEach(s => {
+            s.z -= 2;
+            if (s.z <= 0) s.z = window.innerWidth;
+            const x = (s.x / s.z) * window.innerWidth / 2 + window.innerWidth / 2;
+            const y = (s.y / s.z) * window.innerHeight / 2 + window.innerHeight / 2;
+            starCtx.beginPath(); starCtx.arc(x, y, 1, 0, Math.PI * 2); starCtx.fill();
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+/* === CARGAR DATOS === */
+document.addEventListener('DOMContentLoaded', () => {
+    typeWriter();
+    // Aquí puedes meter la lógica de renderProjects si quieres que sea dinámico
+});
