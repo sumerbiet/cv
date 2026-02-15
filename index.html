@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hector Marabotto | AI & Web Developer</title>
+    
     <link rel="icon" type="image/png" href="img/favicon.png"> 
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <div id="custom-cursor"></div>
+
     <header class="header">
         <nav class="nav container">
             <a href="#" class="nav__logo">Hector<span>.AI</span></a>
@@ -32,13 +41,22 @@
     <main>
         <section id="inicio" class="hero">
             <canvas id="starfield"></canvas>
+            
             <div class="planet-container" id="earth-container"></div>
-            <div class="container hero__content">
-                <span class="hero__subtitle" id="typewriter"></span>
-                <h1 class="hero__title">Hector Marabotto<br><span>Dev & AI Solutions</span></h1>
-                <p class="hero__description">Ingeniería de sistemas enfocada en soluciones digitales inteligentes y seguras.</p>
+            
+            <div class="container hero__content" data-aos="fade-up" data-aos-duration="1000">
+                <div class="badge">Disponible para trabajar <span class="pulse"></span></div>
+                <h1 class="hero__title">Hector Marabotto<br>
+                    <span id="typewriter"></span><span class="cursor-blink">|</span>
+                </h1>
+                <p class="hero__description">
+                    Ingeniería de sistemas enfocada en crear ecosistemas digitales inteligentes, seguros y escalables mediante IA y Desarrollo Web.
+                </p>
+                
                 <div class="hero__buttons">
-                    <a href="assets/cv.pdf" download class="btn btn--primary"><i class="fas fa-download"></i> Descargar CV</a>
+                    <a href="assets/cv.pdf" download="Hector_Marabotto_CV.pdf" class="btn btn--primary">
+                        <i class="fas fa-download"></i> Descargar CV
+                    </a>
                     <a href="#proyectos" class="btn btn--secondary">Ver Proyectos</a>
                 </div>
             </div>
@@ -46,25 +64,57 @@
 
         <section id="sobremi" class="about section container">
             <div class="about__container">
-                <div class="about__left-column">
+                <div class="about__left-column" data-aos="fade-right">
                     <div class="about__img-wrapper">
-                        <img src="img/perfil.png" alt="Hector" class="about__img">
+                        <img src="img/perfil.png" alt="Hector Marabotto" class="about__img">
+                        <div class="circle-spin"></div>
                     </div>
                 </div>
-                <div class="about__data">
-                    <h2 class="section__title">Ingeniería + Creatividad Digital</h2>
+                
+                <div class="about__data" data-aos="fade-left">
+                    <h2 class="section__title">Ingeniería + <span class="gradient-text">Inteligencia Artificial</span></h2>
                     <p class="about__description">
-                        Actualmente trabajo en Multimedios (canal 6) brindando soporte a servidores y aplicaciones críticas. Mi meta es obtener la certificación CCNA y construir ecosistemas digitales seguros.
+                        Actualmente brindo soporte crítico a servidores en <strong>Multimedios (Canal 6)</strong>. Mi enfoque combina la solidez de la ingeniería de sistemas con la innovación de la IA. Busco certificación <strong>CCNA</strong> para dominar la infraestructura de redes moderna.
                     </p>
+                    <div class="about__stats">
+                        <div class="stat__item"><h3>+3</h3><p>Años Exp.</p></div>
+                        <div class="stat__item"><h3>Python</h3><p>Expertise</p></div>
+                        <div class="stat__item"><h3>Network</h3><p>Security</p></div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="proyectos" class="projects section container">
-            <h2 class="section__title center">Mis Proyectos</h2>
-            <div class="projects__grid" id="projects-container"></div>
+            <h2 class="section__title center" data-aos="fade-down">Proyectos Destacados</h2>
+            <div class="projects__grid" id="projects-container">
+                </div>
+        </section>
+
+        <section id="contacto" class="contact section container" data-aos="zoom-in">
+            <h2 class="section__title center">Conectemos</h2>
+            <div class="contact__container glass-card">
+                <form id="contact-form" action="https://formspree.io/f/xwvnkzyo" method="POST" class="contact__form">
+                    <div class="input__group">
+                        <input type="text" name="name" placeholder="Tu Nombre" required class="contact__input">
+                        <input type="email" name="email" placeholder="Tu Email" required class="contact__input">
+                    </div>
+                    <textarea name="message" placeholder="¿Cómo puedo ayudarte?" required class="contact__input contact__area"></textarea>
+                    <button type="submit" class="btn btn--primary full-width" id="form-btn">
+                        <span id="btn-text">Enviar Mensaje <i class="fas fa-paper-plane"></i></span>
+                    </button>
+                    <p id="form-status" class="form-status"></p>
+                </form>
+            </div>
         </section>
     </main>
+
+    <footer class="footer">
+        <p>© 2026 Hector Marabotto | Powered by Human Intelligence & AI</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
