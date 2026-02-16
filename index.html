@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hector Marabotto | AI & Web Developer</title>
+    <title>MHsoluciones | Ingeniería & IA</title>
     
     <link rel="icon" type="image/png" href="img/favicon.png"> 
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <link rel="stylesheet" href="css/styles.css">
@@ -24,12 +22,20 @@
 
     <header class="header">
         <nav class="nav container">
-            <a href="#" class="nav__logo">Hector<span>.AI</span></a>
+            <a href="#" class="nav__logo">
+                MH<span>soluciones</span>
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">Sistema: En Línea</span>
+                </div>
+            </a>
+
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
                     <li class="nav__item"><a href="#inicio" class="nav__link active-link">Inicio</a></li>
-                    <li class="nav__item"><a href="#sobremi" class="nav__link">Perfil</a></li>
+                    <li class="nav__item"><a href="#broadcast" class="nav__link">TV & Medios</a></li>
                     <li class="nav__item"><a href="#proyectos" class="nav__link">Proyectos</a></li>
+                    <li class="nav__item"><a href="#certificaciones" class="nav__link">Certificados</a></li>
                     <li class="nav__item"><a href="#contacto" class="nav__link">Contacto</a></li>
                 </ul>
                 <div class="nav__close" id="nav-close"><i class="fas fa-times"></i></div>
@@ -41,23 +47,21 @@
     <main>
         <section id="inicio" class="hero">
             <canvas id="starfield"></canvas>
-            
             <div class="planet-container" id="earth-container"></div>
             
-            <div class="container hero__content" data-aos="fade-up" data-aos-duration="1000">
-                <div class="badge">Disponible para trabajar <span class="pulse"></span></div>
-                <h1 class="hero__title">Hector Marabotto<br>
-                    <span id="typewriter"></span><span class="cursor-blink">|</span>
+            <div class="container hero__content" data-aos="fade-up">
+                <div class="badge">Disponible para trabajar <i class="fas fa-check-circle"></i></div>
+                <h1 class="hero__title">Ingeniería en<br>
+                    <span id="typewriter"></span><span class="cursor-blink">_</span>
                 </h1>
                 <p class="hero__description">
-                    Ingeniería de sistemas enfocada en crear ecosistemas digitales inteligentes, seguros y escalables mediante IA y Desarrollo Web.
+                    Especialista en soporte crítico de infraestructura IT para televisión y automatización inteligente. Soluciones tecnológicas sólidas bajo el sello <strong>MHsoluciones</strong>.
                 </p>
-                
                 <div class="hero__buttons">
                     <a href="assets/cv.pdf" download="Hector_Marabotto_CV.pdf" class="btn btn--primary">
                         <i class="fas fa-download"></i> Descargar CV
                     </a>
-                    <a href="#proyectos" class="btn btn--secondary">Ver Proyectos</a>
+                    <a href="#proyectos" class="btn btn--secondary">Ver Portafolio</a>
                 </div>
             </div>
         </section>
@@ -67,20 +71,47 @@
                 <div class="about__left-column" data-aos="fade-right">
                     <div class="about__img-wrapper">
                         <img src="img/perfil.png" alt="Hector Marabotto" class="about__img">
-                        <div class="circle-spin"></div>
+                        <div class="tech-ring"></div>
                     </div>
                 </div>
-                
                 <div class="about__data" data-aos="fade-left">
-                    <h2 class="section__title">Ingeniería + <span class="gradient-text">Inteligencia Artificial</span></h2>
+                    <h2 class="section__title">Infraestructura + <span class="gradient-text">Código</span></h2>
                     <p class="about__description">
-                        Actualmente brindo soporte crítico a servidores en <strong>Multimedios (Canal 6)</strong>. Mi enfoque combina la solidez de la ingeniería de sistemas con la innovación de la IA. Busco certificación <strong>CCNA</strong> para dominar la infraestructura de redes moderna.
+                        Con experiencia en entornos de alta presión como <strong>Multimedios (Canal 6)</strong>, aseguro la operatividad de servidores físicos y virtuales. Mi enfoque combina la ingeniería de sistemas tradicional con la innovación de la Inteligencia Artificial.
                     </p>
-                    <div class="about__stats">
-                        <div class="stat__item"><h3>+3</h3><p>Años Exp.</p></div>
-                        <div class="stat__item"><h3>Python</h3><p>Expertise</p></div>
-                        <div class="stat__item"><h3>Network</h3><p>Security</p></div>
+                    <div class="tech-stack-mini">
+                        <span><i class="fab fa-python"></i> Python</span>
+                        <span><i class="fas fa-server"></i> Servidores</span>
+                        <span><i class="fas fa-network-wired"></i> Redes Cisco</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="broadcast" class="broadcast section container" data-aos="fade-up">
+            <h2 class="section__title center">Tecnología Broadcast</h2>
+            <p class="center section__subtitle">Soporte técnico a herramientas críticas de televisión.</p>
+            
+            <div class="broadcast__grid">
+                <div class="b-card glass-card">
+                    <div class="b-icon"><i class="fas fa-film"></i></div>
+                    <h3>GV Stratus</h3>
+                    <p>Gestión de flujos de trabajo de video y producción.</p>
+                </div>
+                <div class="b-card glass-card">
+                    <div class="b-icon"><i class="fas fa-newspaper"></i></div>
+                    <h3>ENPS</h3>
+                    <p>Sistema de producción de noticias en vivo.</p>
+                </div>
+                <div class="b-card glass-card">
+                    <div class="b-icon"><i class="fas fa-paint-brush"></i></div>
+                    <h3>Vizrt</h3>
+                    <p>Motores de gráficos en tiempo real.</p>
+                </div>
+                <div class="b-card glass-card">
+                    <div class="b-icon"><i class="fas fa-hdd"></i></div>
+                    <h3>Servidores</h3>
+                    <p>Alta disponibilidad y virtualización.</p>
                 </div>
             </div>
         </section>
@@ -91,17 +122,33 @@
                 </div>
         </section>
 
-        <section id="contacto" class="contact section container" data-aos="zoom-in">
-            <h2 class="section__title center">Conectemos</h2>
+        <section id="certificaciones" class="section container" data-aos="zoom-in">
+            <h2 class="section__title center">Ruta Profesional</h2>
+            <div class="bento-grid" id="certs-container">
+                </div>
+        </section>
+
+        <section id="contacto" class="contact section container">
+            <h2 class="section__title center">Terminal de Contacto</h2>
             <div class="contact__container glass-card">
-                <form id="contact-form" action="https://formspree.io/f/xwvnkzyo" method="POST" class="contact__form">
+                <form id="contact-form" action="https://formspree.io/f/xwvnkzyo" method="POST">
                     <div class="input__group">
-                        <input type="text" name="name" placeholder="Tu Nombre" required class="contact__input">
-                        <input type="email" name="email" placeholder="Tu Email" required class="contact__input">
+                        <div class="input-wrapper">
+                            <label>> Nombre:</label>
+                            <input type="text" name="name" placeholder="Escribe tu nombre aquí..." required class="contact__input">
+                        </div>
+                        <div class="input-wrapper">
+                            <label>> Correo:</label>
+                            <input type="email" name="email" placeholder="ejemplo@empresa.com" required class="contact__input">
+                        </div>
                     </div>
-                    <textarea name="message" placeholder="¿Cómo puedo ayudarte?" required class="contact__input contact__area"></textarea>
+                    <div class="input-wrapper">
+                        <label>> Mensaje:</label>
+                        <textarea name="message" placeholder="Escribe tu propuesta o mensaje..." required class="contact__input contact__area"></textarea>
+                    </div>
+                    
                     <button type="submit" class="btn btn--primary full-width" id="form-btn">
-                        <span id="btn-text">Enviar Mensaje <i class="fas fa-paper-plane"></i></span>
+                        <span id="btn-text">EJECUTAR_ENVIO.EXE <i class="fas fa-paper-plane"></i></span>
                     </button>
                     <p id="form-status" class="form-status"></p>
                 </form>
@@ -110,7 +157,7 @@
     </main>
 
     <footer class="footer">
-        <p>© 2026 Hector Marabotto | Powered by Human Intelligence & AI</p>
+        <p>© 2026 MHsoluciones | Hector Marabotto</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
