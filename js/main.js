@@ -1,174 +1,65 @@
-/* ==================== CONFIGURACIÓN ==================== */
 document.addEventListener('DOMContentLoaded', () => {
-    AOS.init({ duration: 1000, once: true });
-    typeWriter();
-    renderProjects();
-    renderCertifications(); // Nueva función
+    // Iniciar animaciones de entrada
+    AOS.init({ duration: 800, once: true });
     
-    setTimeout(() => {
-        VanillaTilt.init(document.querySelectorAll(".glass-card"), {
-            max: 10, speed: 400, glare: true, "max-glare": 0.1
-        });
-    }, 500);
+    // Iniciar efecto de máquina de escribir
+    typeWriter();
+    
+    // Cargar los proyectos dinámicamente
+    renderProjects();
+    
+    // Iniciar efecto 3D en tarjetas (solo en PC para ahorrar batería en cel)
+    if(window.innerWidth > 768) {
+        VanillaTilt.init(document.querySelectorAll(".glass-card"), { max: 10, speed: 400 });
+    }
 });
 
-/* ==================== MÁQUINA DE ESCRIBIR ==================== */
-const roles = ["Sistemas & Redes", "TV Broadcast", "Automatización IA"];
-let roleIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
+/* ==================== 1. MENÚ MÓVIL (LATERAL) ==================== */
+const nt = document.getElementById('nav-toggle'), nc = document.getElementById('nav-close'), nm = document.getElementById('nav-menu');
 
-function typeWriter() {
-    const currentRole = roles[roleIndex];
-    const typeElement = document.getElementById("typewriter");
-    
-    if (typeElement) {
-        if (!isDeleting) {
-            typeElement.innerHTML = currentRole.substring(0, charIndex + 1);
-            charIndex++;
-        } else {
-            typeElement.innerHTML = currentRole.substring(0, charIndex - 1);
-            charIndex--;
-        }
-        let typeSpeed = isDeleting ? 50 : 100;
-        if (!isDeleting && charIndex === currentRole.length) {
-            typeSpeed = 2000; isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false; roleIndex = (roleIndex + 1) % roles.length;
-        }
-        setTimeout(typeWriter, typeSpeed);
-    }
-}
+if(nt) nt.addEventListener('click', () => nm.classList.add('show-menu'));
+if(nc) nc.addEventListener('click', () => nm.classList.remove('show-menu'));
 
-/* ==================== CERTIFICADOS DINÁMICOS ==================== */
-// ¡AGREGA AQUÍ TUS CERTIFICADOS!
-// Si tienes el archivo: pon "assets/nombre_archivo.pdf" en 'link'
-// Si NO tienes archivo aún: deja 'link' como comillas vacías ""
-const certificationsData = [
-    {
-        title: "CCNA Routing & Switching",
-        desc: "En proceso de certificación para dominar redes empresariales.",
-        icon: "fas fa-network-wired",
-        status: "En Progreso 70%",
-        link: "" // Vacío = No botón
-    },
-    {
-        title: "Python Automation",
-        desc: "Scripts para automatización de procesos.",
-        icon: "fab fa-python",
-        status: "Completado",
-        link: "assets/certificado_python.pdf" // Ejemplo con botón
-    },
-    {
-        title: "Soporte Broadcast",
-        desc: "Especialización en GV Stratus y ENPS.",
-        icon: "fas fa-tv",
-        status: "Experiencia 3+ Años",
-        link: "" 
-    }
-];
+// Cerrar menú al dar clic en un enlace
+document.querySelectorAll('.nav__link').forEach(n => n.addEventListener('click', () => nm.classList.remove('show-menu')));
 
-function renderCertifications() {
-    const container = document.getElementById('certs-container');
-    if (container) {
-        container.innerHTML = '';
-        certificationsData.forEach((c, index) => {
-            // Lógica: Si hay link, crea botón. Si no, nada.
-            const buttonHtml = c.link ? `<a href="${c.link}" target="_blank" class="cert-btn">Ver Documento</a>` : '';
-            const largeClass = index === 0 ? 'bento-large' : ''; // El primero es grande
-            
-            container.insertAdjacentHTML('beforeend', `
-            <div class="bento-item ${largeClass} glass-card">
-                <i class="${c.icon}"></i>
-                <h3>${c.title}</h3>
-                <p>${c.desc}</p>
-                <span class="status-badge">${c.status}</span>
-                ${buttonHtml}
-            </div>`);
-        });
-    }
-}
-
-/* ==================== PLANETA 3D ==================== */
-const earthContainer = document.getElementById('earth-container');
-if (earthContainer) {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, earthContainer.clientWidth / earthContainer.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(earthContainer.clientWidth, earthContainer.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    earthContainer.appendChild(renderer.domElement);
-
-    const loader = new THREE.TextureLoader();
-    const earthGroup = new THREE.Group();
-    scene.add(earthGroup);
-
-    const geometry = new THREE.SphereGeometry(2, 64, 64);
-    const material = new THREE.MeshPhongMaterial({
-        map: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
-        specularMap: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
-        bumpMap: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
-        bumpScale: 0.05, shininess: 15
-    });
-    const earth = new THREE.Mesh(geometry, material);
-    earthGroup.add(earth);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambientLight);
-    const sunLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    sunLight.position.set(5, 3, 5);
-    scene.add(sunLight);
-
-    camera.position.z = 5;
-    function animate() { requestAnimationFrame(animate); earth.rotation.y += 0.002; renderer.render(scene, camera); }
-    animate();
-
-    window.addEventListener('resize', () => {
-        const w = earthContainer.clientWidth; const h = earthContainer.clientHeight;
-        renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
-    });
-}
-
-/* ==================== ESTRELLAS ==================== */
-const canvas = document.getElementById('starfield');
-if(canvas) {
-    const ctx = canvas.getContext('2d');
-    let stars = []; 
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize); resize();
-    for(let j=0; j<150; j++) stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, z:Math.random()*canvas.width});
-    function animStars() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = "white";
-        stars.forEach(s => {
-            s.z -= 0.5; if(s.z<=0) s.z = canvas.width;
-            let x = (s.x-canvas.width/2)*(canvas.width/s.z)+canvas.width/2;
-            let y = (s.y-canvas.height/2)*(canvas.width/s.z)+canvas.height/2;
-            if(x>0 && x<canvas.width && y>0 && y<canvas.height) { ctx.beginPath(); ctx.arc(x,y,1.5,0,Math.PI*2); ctx.fill(); }
-        });
-        requestAnimationFrame(animStars);
-    }
-    animStars();
-}
-
-/* ==================== DATOS PROYECTOS ==================== */
+/* ==================== 2. PROYECTOS (DATOS) ==================== */
 const projects = [
-    { title: "HM SYSTEM V74", img: "img/proyecto1.jpg", tech: "Sistemas · Soporte", desc: "Gestión de infraestructura crítica y soporte técnico nivel 2 en Multimedios Canal 6.", link: "#" },
-    { title: "FTP Media Browser", img: "img/proyecto2.jpg", tech: "Python · Automation", desc: "Navegador de medios optimizado para flujos de trabajo de Broadcast TV.", link: "#" },
-    { title: "MH Portafolio", img: "img/proyecto3.jpg", tech: "Three.js · Web Dev", desc: "Plataforma personal interactiva con tecnología 3D y diseño responsivo.", link: "#" }
+    { 
+        title: "HM SYSTEM V74", 
+        img: "img/proyecto1.jpg", 
+        tech: "Sistemas", 
+        desc: "Gestión de infraestructura crítica y soporte técnico nivel 2 en Multimedios Canal 6.", 
+        link: "#" 
+    },
+    { 
+        title: "FTP Media Browser", 
+        img: "img/proyecto2.jpg", 
+        tech: "Python", 
+        desc: "Automatización de archivos multimedia para flujos de broadcast.", 
+        link: "#" 
+    },
+    { 
+        title: "MH Portafolio", 
+        img: "img/proyecto3.jpg", 
+        tech: "Web Dev", 
+        desc: "Plataforma personal interactiva con tecnología 3D y diseño responsivo.", 
+        link: "#" 
+    }
 ];
 
 function renderProjects() {
-    const container = document.getElementById('projects-container');
-    if(container) {
-        container.innerHTML = '';
+    const c = document.getElementById('projects-container');
+    if(c) {
+        c.innerHTML = '';
         projects.forEach(p => {
-            container.insertAdjacentHTML('beforeend', `
+            c.insertAdjacentHTML('beforeend', `
             <article class="project-card glass-card">
                 <img src="${p.img}" class="project__img" onerror="this.src='https://via.placeholder.com/400x300/222/fff?text=Proyecto'">
                 <div class="project__content">
                     <span class="project__tech">${p.tech}</span>
                     <h3 class="project__title">${p.title}</h3>
-                    <p class="project__desc">${p.desc}</p>
+                    <p>${p.desc}</p>
                     <a href="${p.link}" class="project__link">Ver Proyecto <i class="fas fa-arrow-right"></i></a>
                 </div>
             </article>`);
@@ -176,8 +67,140 @@ function renderProjects() {
     }
 }
 
-/* ==================== MENU MOVIL ==================== */
-const navToggle = document.getElementById('nav-toggle'), navClose = document.getElementById('nav-close'), navMenu = document.getElementById('nav-menu');
-if(navToggle) navToggle.addEventListener('click', () => navMenu.classList.add('show-menu'));
-if(navClose) navClose.addEventListener('click', () => navMenu.classList.remove('show-menu'));
-document.querySelectorAll('.nav__link').forEach(n => n.addEventListener('click', () => navMenu.classList.remove('show-menu')));
+/* ==================== 3. LAB REDES (CCNA INTERACTIVO) ==================== */
+// Esta es la función clave que hace que la consola cambie
+function showConfig(device) {
+    const output = document.getElementById('console-output');
+    const title = document.getElementById('console-title'); // Si existe el título
+    
+    // Limpiamos la consola primero
+    output.style.opacity = '0';
+    
+    setTimeout(() => {
+        if(device === 'router') {
+            // Simulación Router Cisco
+            if(title) title.innerText = 'Router R1 (Cisco IOS)';
+            output.innerHTML = `
+                <span style="color:#888"># Conectando a Router R1...</span><br>
+                R1> enable<br>
+                R1# configure terminal<br>
+                R1(config)# interface GigabitEthernet0/0<br>
+                R1(config-if)# ip address 192.168.1.1 255.255.255.0<br>
+                R1(config-if)# no shutdown<br>
+                <span style="color:#00ff00"># Interface Gig0/0 changed state to UP</span>
+            `;
+        } 
+        else if(device === 'switch') {
+            // Simulación Switch Cisco
+            if(title) title.innerText = 'Switch SW1 (Cisco IOS)';
+            output.innerHTML = `
+                <span style="color:#888"># Conectando a Switch SW1...</span><br>
+                SW1> enable<br>
+                SW1# show vlan brief<br><br>
+                VLAN Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;&nbsp;Ports<br>
+                ---- ---------------- --------- ------------------<br>
+                1&nbsp;&nbsp;&nbsp;&nbsp;default&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;active&nbsp;&nbsp;&nbsp;&nbsp;Fa0/1, Fa0/2...<br>
+                10&nbsp;&nbsp;&nbsp;IT_Management&nbsp;&nbsp;&nbsp;&nbsp;active&nbsp;&nbsp;&nbsp;&nbsp;Fa0/24
+            `;
+        } 
+        else {
+            // Simulación PC Windows
+            if(title) title.innerText = 'PC Admin (CMD)';
+            output.innerHTML = `
+                C:\\Users\\Admin> ping 192.168.1.1<br><br>
+                Pinging 192.168.1.1 with 32 bytes of data:<br>
+                Reply from 192.168.1.1: bytes=32 time<1ms TTL=255<br>
+                Reply from 192.168.1.1: bytes=32 time<1ms TTL=255<br>
+                Reply from 192.168.1.1: bytes=32 time<1ms TTL=255<br><br>
+                Ping statistics for 192.168.1.1:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+            `;
+        }
+        output.style.opacity = '1'; // Efecto suave de aparición
+    }, 100);
+}
+
+/* ==================== 4. PLANETA 3D (BACKGROUND) ==================== */
+const container = document.getElementById('earth-container');
+if(container) {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    const loader = new THREE.TextureLoader();
+    const earth = new THREE.Mesh(new THREE.SphereGeometry(2, 64, 64), new THREE.MeshPhongMaterial({
+        map: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+        bumpMap: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+        bumpScale: 0.05
+    }));
+
+    scene.add(earth); 
+    scene.add(new THREE.AmbientLight(0xffffff, 1)); // Luz suave
+    
+    camera.position.z = 5;
+
+    function animate() { 
+        requestAnimationFrame(animate); 
+        earth.rotation.y += 0.003; // Rotación lenta
+        renderer.render(scene, camera); 
+    }
+    animate();
+
+    // Redimensionar si cambia la ventana
+    window.addEventListener('resize', () => {
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+    });
+}
+
+/* ==================== 5. TYPEWRITER (TEXTO DINÁMICO) ==================== */
+const roles = ["Soporte Broadcast", "Automatización IA", "Infraestructura"];
+let ri=0, ci=0, del=false;
+
+function typeWriter() {
+    const el = document.getElementById('typewriter');
+    if(el) {
+        const cur = roles[ri];
+        el.innerHTML = cur.substring(0, ci);
+        
+        if(!del && ci < cur.length) ci++;
+        else if(del && ci > 0) ci--;
+        else { 
+            del = !del; 
+            if(!del) ri = (ri + 1) % roles.length; 
+        }
+        
+        setTimeout(typeWriter, del ? 50 : 150);
+    }
+}
+
+/* ==================== 6. EXTRAS (CHATBOT & CMD) ==================== */
+function toggleChat() { 
+    document.getElementById('chat-window').classList.toggle('open'); 
+}
+
+function askBot(t) {
+    const b = document.getElementById('chat-body');
+    const r = t === 'tv' ? 'Doy soporte a sistemas críticos como GV Stratus en Canal 6.' : 'Puedes descargar mi CV en la sección superior.';
+    
+    b.innerHTML += `<div class="msg user-msg">${t}</div>`;
+    setTimeout(() => {
+        b.innerHTML += `<div class="msg bot-msg">${r}</div>`;
+        b.scrollTop = b.scrollHeight;
+    }, 500);
+}
+
+function toggleCmd() { 
+    document.getElementById('cmd-overlay').classList.toggle('active');
+    document.getElementById('cmd-input').focus();
+}
+
+// Cerrar con tecla Escape
+document.addEventListener('keydown', e => { 
+    if((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleCmd(); }
+    if(e.key === 'Escape') document.getElementById('cmd-overlay').classList.remove('active');
+});

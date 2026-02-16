@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHsoluciones | Ingeniería & IA</title>
+    <title>MHsoluciones | Ingeniería</title>
     
     <link rel="icon" type="image/png" href="img/favicon.png"> 
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -20,27 +21,43 @@
 <body>
     <div id="custom-cursor"></div>
 
-    <header class="header">
+    <div id="cmd-overlay" class="cmd-overlay">
+        <div class="cmd-box glass-card">
+            <div class="cmd-header">
+                <i class="fas fa-terminal"></i>
+                <input type="text" id="cmd-input" placeholder="Comando...">
+                <span class="cmd-key">ESC</span>
+            </div>
+            <div class="cmd-list" id="cmd-list"></div>
+        </div>
+    </div>
+
+    <header class="header" id="header">
         <nav class="nav container">
             <a href="#" class="nav__logo">
                 MH<span>soluciones</span>
                 <div class="status-indicator">
                     <span class="pulse-dot"></span>
-                    <span class="status-text">Sistema: En Línea</span>
+                    <span class="status-text desktop-only">Sistema: En Línea</span>
                 </div>
             </a>
 
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
                     <li class="nav__item"><a href="#inicio" class="nav__link active-link">Inicio</a></li>
-                    <li class="nav__item"><a href="#broadcast" class="nav__link">TV & Medios</a></li>
+                    <li class="nav__item"><a href="#sobremi" class="nav__link">Perfil</a></li>
+                    <li class="nav__item"><a href="#broadcast" class="nav__link">TV Exp</a></li>
                     <li class="nav__item"><a href="#proyectos" class="nav__link">Proyectos</a></li>
-                    <li class="nav__item"><a href="#certificaciones" class="nav__link">Certificados</a></li>
+                    <li class="nav__item"><a href="#network" class="nav__link">Lab CCNA</a></li>
                     <li class="nav__item"><a href="#contacto" class="nav__link">Contacto</a></li>
                 </ul>
                 <div class="nav__close" id="nav-close"><i class="fas fa-times"></i></div>
             </div>
-            <div class="nav__toggle" id="nav-toggle"><i class="fas fa-bars"></i></div>
+
+            <div class="nav__actions">
+                <i class="fas fa-search search-icon" onclick="toggleCmd()"></i>
+                <div class="nav__toggle" id="nav-toggle"><i class="fas fa-bars"></i></div>
+            </div>
         </nav>
     </header>
 
@@ -50,18 +67,16 @@
             <div class="planet-container" id="earth-container"></div>
             
             <div class="container hero__content" data-aos="fade-up">
-                <div class="badge">Disponible para trabajar <i class="fas fa-check-circle"></i></div>
-                <h1 class="hero__title">Ingeniería en<br>
-                    <span id="typewriter"></span><span class="cursor-blink">_</span>
+                <div class="badge">Ingeniería & Automatización <i class="fas fa-bolt"></i></div>
+                <h1 class="hero__title">Especialista en<br>
+                    <span id="typewriter"></span><span class="cursor-blink">|</span>
                 </h1>
                 <p class="hero__description">
-                    Especialista en soporte crítico de infraestructura IT para televisión y automatización inteligente. Soluciones tecnológicas sólidas bajo el sello <strong>MHsoluciones</strong>.
+                    Soporte crítico de infraestructura IT para televisión y flujos de IA. Soluciones robustas por <strong>MHsoluciones</strong>.
                 </p>
                 <div class="hero__buttons">
-                    <a href="assets/cv.pdf" download="Hector_Marabotto_CV.pdf" class="btn btn--primary">
-                        <i class="fas fa-download"></i> Descargar CV
-                    </a>
-                    <a href="#proyectos" class="btn btn--secondary">Ver Portafolio</a>
+                    <a href="assets/cv.pdf" download class="btn btn--primary">Descargar CV</a>
+                    <a href="#proyectos" class="btn btn--secondary">Ver Proyectos</a>
                 </div>
             </div>
         </section>
@@ -70,14 +85,13 @@
             <div class="about__container">
                 <div class="about__left-column" data-aos="fade-right">
                     <div class="about__img-wrapper">
-                        <img src="img/perfil.png" alt="Hector Marabotto" class="about__img">
-                        <div class="tech-ring"></div>
+                        <img src="img/perfil.png" alt="Hector Marabotto" class="about__img" onerror="this.src='https://via.placeholder.com/260/222/fff?text=Tu+Foto'">
                     </div>
                 </div>
                 <div class="about__data" data-aos="fade-left">
                     <h2 class="section__title">Infraestructura + <span class="gradient-text">Código</span></h2>
                     <p class="about__description">
-                        Con experiencia en entornos de alta presión como <strong>Multimedios (Canal 6)</strong>, aseguro la operatividad de servidores físicos y virtuales. Mi enfoque combina la ingeniería de sistemas tradicional con la innovación de la Inteligencia Artificial.
+                        Con experiencia en entornos de alta presión como <strong>Multimedios (Canal 6)</strong>, aseguro la operatividad de servidores físicos y virtuales. Mi enfoque combina la ingeniería de sistemas tradicional con la automatización de flujos de trabajo en Python.
                     </p>
                     <div class="tech-stack-mini">
                         <span><i class="fab fa-python"></i> Python</span>
@@ -89,72 +103,90 @@
         </section>
 
         <section id="broadcast" class="broadcast section container" data-aos="fade-up">
-            <h2 class="section__title center">Tecnología Broadcast</h2>
-            <p class="center section__subtitle">Soporte técnico a herramientas críticas de televisión.</p>
-            
+            <h2 class="section__title center">Experiencia Broadcast</h2>
             <div class="broadcast__grid">
                 <div class="b-card glass-card">
-                    <div class="b-icon"><i class="fas fa-film"></i></div>
-                    <h3>GV Stratus</h3>
-                    <p>Gestión de flujos de trabajo de video y producción.</p>
+                    <i class="fas fa-broadcast-tower b-icon"></i>
+                    <h3>Soporte TV</h3>
+                    <p>Mantenimiento a sistemas críticos GV Stratus y ENPS en Multimedios.</p>
                 </div>
                 <div class="b-card glass-card">
-                    <div class="b-icon"><i class="fas fa-newspaper"></i></div>
-                    <h3>ENPS</h3>
-                    <p>Sistema de producción de noticias en vivo.</p>
+                    <i class="fas fa-server b-icon"></i>
+                    <h3>Infraestructura</h3>
+                    <p>Gestión de servidores físicos y virtuales de alta disponibilidad.</p>
                 </div>
                 <div class="b-card glass-card">
-                    <div class="b-icon"><i class="fas fa-paint-brush"></i></div>
-                    <h3>Vizrt</h3>
-                    <p>Motores de gráficos en tiempo real.</p>
-                </div>
-                <div class="b-card glass-card">
-                    <div class="b-icon"><i class="fas fa-hdd"></i></div>
-                    <h3>Servidores</h3>
-                    <p>Alta disponibilidad y virtualización.</p>
+                    <i class="fab fa-python b-icon"></i>
+                    <h3>Automatización</h3>
+                    <p>Scripts en Python para optimización de flujos de trabajo.</p>
                 </div>
             </div>
         </section>
 
         <section id="proyectos" class="projects section container">
-            <h2 class="section__title center" data-aos="fade-down">Proyectos Destacados</h2>
-            <div class="projects__grid" id="projects-container">
-                </div>
+            <h2 class="section__title center">Proyectos Destacados</h2>
+            <div class="projects__grid" id="projects-container"></div>
         </section>
 
-        <section id="certificaciones" class="section container" data-aos="zoom-in">
-            <h2 class="section__title center">Ruta Profesional</h2>
-            <div class="bento-grid" id="certs-container">
+        <section id="network" class="section container" data-aos="zoom-in">
+            <h2 class="section__title center">Laboratorio CCNA</h2>
+            <p class="center section__subtitle blink-text"><i class="fas fa-hand-pointer"></i> Toca los dispositivos para ver su configuración en consola.</p>
+            
+            <div class="network-lab glass-card">
+                <div class="diagram">
+                    <div class="device" onclick="showConfig('router')">
+                        <i class="fas fa-router"></i><span>Router</span>
+                    </div>
+                    <div class="cable"></div>
+                    <div class="device" onclick="showConfig('switch')">
+                        <i class="fas fa-random"></i><span>Switch</span>
+                    </div>
+                    <div class="cable"></div>
+                    <div class="device" onclick="showConfig('pc')">
+                        <i class="fas fa-laptop"></i><span>PC Admin</span>
+                    </div>
                 </div>
+                <div class="console-window">
+                    <div class="console-header"><span class="dot red"></span> Terminal</div>
+                    <div class="console-body" id="console-output">Esperando conexión...</div>
+                </div>
+            </div>
         </section>
 
         <section id="contacto" class="contact section container">
-            <h2 class="section__title center">Terminal de Contacto</h2>
+            <h2 class="section__title center">Contacto</h2>
             <div class="contact__container glass-card">
                 <form id="contact-form" action="https://formspree.io/f/xwvnkzyo" method="POST">
-                    <div class="input__group">
-                        <div class="input-wrapper">
-                            <label>> Nombre:</label>
-                            <input type="text" name="name" placeholder="Escribe tu nombre aquí..." required class="contact__input">
-                        </div>
-                        <div class="input-wrapper">
-                            <label>> Correo:</label>
-                            <input type="email" name="email" placeholder="ejemplo@empresa.com" required class="contact__input">
-                        </div>
+                    <div class="input-wrapper">
+                        <label>Nombre:</label>
+                        <input type="text" name="name" placeholder="Tu nombre..." required class="contact__input">
                     </div>
                     <div class="input-wrapper">
-                        <label>> Mensaje:</label>
-                        <textarea name="message" placeholder="Escribe tu propuesta o mensaje..." required class="contact__input contact__area"></textarea>
+                        <label>Mensaje:</label>
+                        <textarea name="message" placeholder="¿Cómo te ayudo?" required class="contact__input contact__area"></textarea>
                     </div>
-                    
-                    <button type="submit" class="btn btn--primary full-width" id="form-btn">
-                        <span id="btn-text">EJECUTAR_ENVIO.EXE <i class="fas fa-paper-plane"></i></span>
-                    </button>
-                    <p id="form-status" class="form-status"></p>
+                    <button type="submit" class="btn btn--primary full-width">Enviar <i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </section>
     </main>
+
+    <div class="hect-bot-container">
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <span>Asistente IA</span>
+                <i class="fas fa-times" onclick="toggleChat()"></i>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div class="msg bot-msg">Hola, soy el asistente virtual. ¿Dudas?</div>
+                <div class="quick-replies">
+                    <button onclick="askBot('tv')">TV Exp</button>
+                    <button onclick="askBot('cv')">CV</button>
+                </div>
+            </div>
+        </div>
+        <button class="chat-toggle" onclick="toggleChat()"><i class="fas fa-robot"></i></button>
+    </div>
 
     <footer class="footer">
         <p>© 2026 MHsoluciones | Hector Marabotto</p>
